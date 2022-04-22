@@ -1,10 +1,11 @@
 
 #top {
     position: relative;
-    background-color: #036fab;
+    background-color: #FFFFFF;
     color: white;
-    padding: 5px;
+    padding: 30px;
     margin: 0px 0px 10px 0px;
+    border: 1px solid #000;
 }
 
 #bottom {
@@ -16,9 +17,10 @@
 
 #left {
     float: left;
-    background-color: #ece3a5;
+    background-color: #FFFFFF;
     padding: 5px;
     width: 150px;
+    border: 1px solid #000;
 }
 
 #right {

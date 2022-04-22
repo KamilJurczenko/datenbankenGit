@@ -6,14 +6,15 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet  name="default.css" library="css"/>
+        <h:outputStylesheet library="css" name="bootstrap.css" />
+        <script 
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.js">
+        </script>
         <h:outputStylesheet name="cssLayout.css" library="css"/>
+
         <title>Facelets Template</title>
     </h:head>
-
     <h:body>
-
-
         <div id="top" class="top">
             <ui:insert name="top">
                 <ui:include src="banner.xhtml"/>
@@ -30,5 +31,4 @@
             </div>
         </div>
     </h:body>
-
 </html>

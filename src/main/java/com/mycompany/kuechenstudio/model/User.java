@@ -1,12 +1,11 @@
 /*
- * Seminar: Messaging, Validieren
+ * 
  * April 2022
  */
 package com.mycompany.kuechenstudio.model;
 
 /**
  *
- * @author lgrue
  */
 public class User {
 
