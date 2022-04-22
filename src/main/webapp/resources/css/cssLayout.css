@@ -1,63 +1,32 @@
 
 #top {
     position: relative;
-    background-color: #FFFFFF;
+    background-color: #e6e6e6;
     color: white;
-    padding: 30px;
-    margin: 0px 0px 10px 0px;
-    border: 1px solid #000;
-}
-
-#bottom {
-    position: relative;
-    background-color: #c2dfef;
-    padding: 5px;
-    margin: 10px 0px 0px 0px;
+    padding: 0px;
+    margin:  0px 10px 0px 10px;
+    border: 3px solid #000;
 }
 
 #left {
     float: left;
-    background-color: #FFFFFF;
-    padding: 5px;
-    width: 150px;
-    border: 1px solid #000;
+    background-color: #e6e6e6;
+    padding: 15px;
+    margin: 0px 0px 0px 10px;
+    width: 250px;
+    height: 500px;
+    border: 3px solid #000;
+    border-top: 0px;
+    line-height: 1.75;
 }
 
-#right {
-    float: right;
-    background-color: #ece3a5;
-    padding: 5px;
-    width: 150px;
-}
-
-.center_content {
-    position: relative;
+.content {
     background-color: #dddddd;
-    padding: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-right: 3px solid #000;
+    border-bottom: 3px solid #000;
+    height: 500px;
+    padding: 10px;
+    padding-left: 275px;
 }
-
-.left_content {
-    background-color: #dddddd;
-    padding: 5px;
-    margin-left: 170px;
-}
-
-.right_content {
-    background-color: #dddddd;
-    padding: 5px;
-    margin: 0px 170px 0px 170px;
-}
-
-#top a:link, #top a:visited {
-  color: white;
-  font-weight : bold;
-  text-decoration: none;
-}
-
-#top a:link:hover, #top a:visited:hover  {
-  color: black;
-  font-weight : bold;
-  text-decoration : underline;
-}
-
-

@@ -5,11 +5,10 @@
 
     <h:body>
         <h:form>
-            <h:commandLink 
-                id="bannerLink" 
-                value="Zur Startseite" 
-                action="index.xhtml" 
-                style="text-align: right; display: block; margin: 30px;"/>
+            <h:commandLink action="index.xhtml">
+                <h:graphicImage name="images/kitchen.jpg" width="245" />
+            </h:commandLink>
+            <h:outputText value = "Küchen" style="padding-left: 50px;color: #000; font-size: 80px; text-align: center" />
         </h:form>
     </h:body>
 </html>
