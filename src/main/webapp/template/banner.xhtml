@@ -7,17 +7,21 @@
         <h:outputStylesheet library="css" name="styles.css" />
     </head>
     <h:body>
-        <h:panelGrid columns = "3" border = "0" cellpadding = "0" cellspacing = "0">
+        <h:panelGrid columns = "4" border = "0" cellpadding = "0" cellspacing = "0">
             <h:form>
                 <h:commandLink action="index.xhtml">
                     <h:graphicImage name="images/kitchen.jpg" width="247" style="border-right: 3px solid #000;" />
                 </h:commandLink>
             </h:form>
             <h:outputText value = "Küchen" style="margin-left: 15px; color: #000; font-size: 80px;" />
-            <h:form id ="LoginForm" prependId="false" rendered = "#{serviceBean.isLoggedIn == false}">
+            <h:form id ="LoginForm"  rendered = "#{serviceBean.loggedUser == null}">
                     <h:panelGrid styleClass = "panelGridLogin" id = "loginPanel" columns = "3" cellpadding = "30" cellspacing = "8"  >
                         <h:outputLabel value = "Benutzername: " style="margin: 10px" />
-                        <h:inputText id="loginName" value="#{loginBean.loginName}" required = "true" requiredMessage="Bitte angeben!" style="margin-right: 10px;"/>
+                        <h:inputText id="loginName" 
+                                     value="#{loginBean.loginName}" 
+                                     required = "true" 
+                                     requiredMessage="Bitte angeben!" 
+                                     style="margin-right: 10px;"/>
                         <h:message 
                         id="loginNameMessage" 
                         showSummary="true" 
@@ -35,6 +39,7 @@
                             value="#{loginBean.password}"
                             requiredMessage="Bitte angeben!"  
                             validatorMessage="Passwortlänge überprüfen!"
+                            binding="#{loginBean.messageComponent}"
                             redisplay="false">
                         <f:validateLength minimum="5"/>
                         <f:ajax 
@@ -59,6 +64,15 @@
                         </f:facet>                  
                     </h:panelGrid>
                 </h:form>
+           
+            <h:outputText value = "Benutzer '#{serviceBean.loggedUser.loginName}' angemeldet" 
+                          rendered="#{serviceBean.loggedUser != null}" style="margin-left: 500px; color: #000; font-size: 20px;" />
+            <h:form>
+                <h:commandButton id = "submitLogOut" 
+                                 rendered="#{serviceBean.loggedUser != null}" 
+                                 value = "Abmelden" 
+                                 action="#{serviceBean.setLoggedUser(null)}" style="margin-left: 10px;"/>
+            </h:form>
         </h:panelGrid>
     </h:body>
 </html>

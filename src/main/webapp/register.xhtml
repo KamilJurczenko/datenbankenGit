@@ -25,7 +25,15 @@
                         <h:message for="gender"/>
 
                         <h:outputLabel for="lastNameRegister" value = "Familienname*: " style="margin: 10px" />
-                        <h:inputText id="lastNameRegister" required = "true" requiredMessage="Pflichtfeld!" value="#{registerBean.lastName}" style="margin-right: 10px;"/>
+                        <h:inputText 
+                            id="lastNameRegister" 
+                            required = "true" 
+                            requiredMessage="Pflichtfeld!" 
+                            value="#{registerBean.lastName}" 
+                            style="margin-right: 10px;"
+                            validatorMessage="Inkorrekte Eingabe!">
+                            <f:validateRegex pattern="^([a-zA-Z]+(.)?[\s]*)$"/>
+                        </h:inputText>
                         <h:message 
                         id="registerLastNameMessage" 
                         showSummary="true" 
@@ -37,7 +45,15 @@
                         style="margin-left: 20px; margin-right: 20px;"/>
 
                         <h:outputLabel for="firstNameRegister" value = "Vorname*: " style="margin: 10px" />
-                        <h:inputText id="firstNameRegister" required = "true" requiredMessage="Pflichtfeld!" value="#{registerBean.firstName}" style="margin-right: 10px;"/>
+                        <h:inputText 
+                            id="firstNameRegister" 
+                            required = "true" 
+                            requiredMessage="Pflichtfeld!" 
+                            value="#{registerBean.firstName}" 
+                            style="margin-right: 10px;"
+                            validatorMessage="Inkorrekte Eingabe!">
+                            <f:validateRegex pattern="^([a-zA-Z]+(.)?[\s]*)$"/>
+                        </h:inputText>
                         <h:message 
                         id="firstNameRegisterMessage" 
                         showSummary="true" 
@@ -50,7 +66,14 @@
 
 
                         <h:outputLabel value = "Benutzername*: " style="margin: 10px" />
-                        <h:inputText id="registerName" required = "true" requiredMessage="Pflichtfeld!" value="#{registerBean.loginName}" style="margin-right: 10px;"/>
+                        <h:inputText
+                            id="registerName" 
+                            required = "true" 
+                            requiredMessage="Pflichtfeld!" 
+                            value="#{registerBean.loginName}" 
+                            binding = "#{registerBean.loginNameComponent}"
+                            style="margin-right: 10px;">
+                        </h:inputText>
                         <h:message 
                         id="loginNameMessage" 
                         showSummary="true" 
@@ -60,6 +83,7 @@
                         errorStyle="color:red" 
                         for="registerName"  
                         style="margin-left: 20px; margin-right: 20px;"/>
+                        
 
                         <h:outputLabel for="registerPassword" value = "Passwort: " style="margin: 10px" />
                         <h:inputSecret
@@ -68,6 +92,7 @@
                             value="#{registerBean.pwd}"
                             requiredMessage="Bitte angeben!"  
                             validatorMessage="Passwortlänge überprüfen!"
+                            binding = "#{registerBean.passwordComponent}"
                             redisplay="false">
                         <f:validateLength minimum="5"/>
                         <f:ajax 

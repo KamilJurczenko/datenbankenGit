@@ -7,7 +7,7 @@
     <h:body>
         <h:form>
             <ul>
-                <ui:fragment rendered="#{serviceBean.isLoggedIn == false}">
+                <ui:fragment rendered="#{serviceBean.loggedUser == null}">
                     <li>
                         <h:commandLink
                             value="Registrieren" 

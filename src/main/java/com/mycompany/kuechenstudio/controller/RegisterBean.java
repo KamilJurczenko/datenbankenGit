@@ -4,7 +4,9 @@
  */
 package com.mycompany.kuechenstudio.controller;
 
+import com.mycompany.kuechenstudio.model.User;
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.el.ELContext;
 import javax.enterprise.context.RequestScoped;
@@ -22,25 +24,46 @@ import javax.inject.Named;
 @RequestScoped
 public class RegisterBean implements Serializable {
     
-    private String gender;
-    private String loginName;
-    private String pwd;
-    private String firstName;
-    private String lastName;
-    private boolean ok;
+    private String gender; //Geschlecht
+    private String registerName; //Loginname
+    private String pwd; //Passwort
+    private String firstName; //Vorname
+    private String lastName; //Nachname
+    private boolean ok; //bool zur Validierung
     private FacesContext context;
+    
+    private UIComponent passwordComponent;    
+    private UIComponent loginNameComponent;
     //private LoginBean loginBean;
 
     /**
      * Creates a new instance of RegisterBean
      */
     public RegisterBean() {
+        
     }
-    
     @PostConstruct
-    public void init() {
+    void init(){
         context = FacesContext.getCurrentInstance();
     }
+
+    public UIComponent getPasswordComponent() {
+        return passwordComponent;
+    }
+
+    public void setPasswordComponent(UIComponent passwordComponent) {
+        this.passwordComponent = passwordComponent;
+    }
+
+    public UIComponent getLoginNameComponent() {
+        return loginNameComponent;
+    }
+
+    public void setLoginNameComponent(UIComponent loginNameComponent) {
+        this.loginNameComponent = loginNameComponent;
+    }
+    
+    
     
     public String getGender() {
         return gender;
@@ -51,7 +74,7 @@ public class RegisterBean implements Serializable {
     }
     
     public String getLoginName() {
-        return loginName;
+        return registerName;
     }
 
     public String getPwd() {
@@ -67,7 +90,7 @@ public class RegisterBean implements Serializable {
     }
 
     public void setLoginName(String loginName) {
-        this.loginName = loginName;
+        this.registerName = loginName;
     }
 
     public void setPwd(String pwd) {
@@ -83,12 +106,14 @@ public class RegisterBean implements Serializable {
     }
     
     // Überprüfe ob alle Eingaben den Anforderungen entsprechen
+    // Füge neuen Nutzer in "Datenbank" falls Erfolgreiche Validierung
     public void ValidateRegister(){
         
         FacesMessage fm = null;
         ok = true;
-        
+        // Serverseitige Validierung!
         // Überprüfe ob Vorname und Nachname nur das Alphabet enthält
+        /*
         if(!firstName.matches("[a-zA-Z]+")){
             fm = new FacesMessage("Ungültige Zeichen!");
             context.addMessage("firstName", fm);
@@ -99,28 +124,42 @@ public class RegisterBean implements Serializable {
             context.addMessage("lastName", fm);
             ok = false;
         }    
+        */
         // Überprüfe ob Loginname bereits vorhanden
-        if(loginName.equals("admin")){
-            fm = new FacesMessage("Loginname bereits vorhanden!");
-            context.addMessage("loginName", fm);
+        ELContext elContext = FacesContext.getCurrentInstance().getELContext(); 
+        ServiceBean serviceBean = (ServiceBean) FacesContext.getCurrentInstance().getApplication() 
+            .getELResolver().getValue(elContext, null, "serviceBean");
+        // Durch jeden User iterieren und überprüfen ob loginname identisch zu loginName
+        if(registerName.equals("admin")){
             ok = false;
         }
+        else{
+            List<User> l = serviceBean.getUserList();
+            for (User u : l){
+                if(u.getLoginName().equals(registerName)){
+                    ok = false;
+                    break;
+                }
+            } 
+        }
+
         // Registrierung ist Ok. Öffne Startseite und zeige an das der User angemeldet ist
         if(ok){
-            fm = new FacesMessage("Ok.");
-            UIComponent uic = UIComponent.getCurrentComponent(context);
-            context.addMessage(uic.getClientId(), fm);
-            StoreUserInfo();
+            //fm = new FacesMessage("Ok.");
+            //UIComponent uic = UIComponent.getCurrentComponent(context);
+            //context.addMessage(uic.getClientId(), fm);
+            elContext = FacesContext.getCurrentInstance().getELContext(); 
+            LoginBean loginBean = (LoginBean) FacesContext.getCurrentInstance().getApplication() 
+                .getELResolver().getValue(elContext, null, "loginBean");
+            User u = new User(registerName,pwd);
+            loginBean.Login(false, u);
+            serviceBean.addNewUser(registerName,pwd);
             context.getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "index.xhtml");
-        }      
-    }
-    
-    // Loge Nutzer ein
-    public void StoreUserInfo() {
-        ELContext elContext = FacesContext.getCurrentInstance().getELContext(); 
-        LoginBean loginBean = (LoginBean) FacesContext.getCurrentInstance().getApplication() 
-            .getELResolver().getValue(elContext, null, "loginBean");
-        loginBean.Login(false);
+        }   
+        else{
+            fm = new FacesMessage("Loginname bereits vorhanden!");
+            context.addMessage(loginNameComponent.getClientId(), fm);
+        }
     }
     
     public void inputAjaxListener(AjaxBehaviorEvent ev) {
@@ -130,7 +169,7 @@ public class RegisterBean implements Serializable {
             fm.setSeverity(FacesMessage.SEVERITY_INFO);
             fm.setDetail("Passwort formal korrekt!");
             //Methode wird aufgerufen aber keine Message angezeigt
-            context.addMessage("password", fm);
+            context.addMessage(passwordComponent.getClientId(), fm);
         }
     }
 }
