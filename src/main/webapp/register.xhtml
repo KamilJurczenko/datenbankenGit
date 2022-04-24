@@ -2,11 +2,96 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:body>
         <ui:composition template="template/master.xhtml">
             <ui:define name="content">
-                Registrieren-Seite
+                <h:form id ="RegisterForm">
+                    <h:panelGrid id = "registerPanel" columns = "3" border = "2" cellpadding = "30" cellspacing = "8" >
+                        <h:outputLabel id = "genderRegister" value = "Anrede*:" style="margin: 10px;" />
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" required = "true" type="radio" name="flexRadioDefault" id="frauCheck" value="#{registerBean.gender}"/>
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        Frau...
+                                    </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" required = "true" type="radio" name="flexRadioDefault" id="herrCheck" value="#{registerBean.gender}"/>
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Herr...
+                                    </label>
+                            </div>
+                        <h:message for="gender"/>
+
+                        <h:outputLabel for="lastNameRegister" value = "Familienname*: " style="margin: 10px" />
+                        <h:inputText id="lastNameRegister" required = "true" requiredMessage="Pflichtfeld!" value="#{registerBean.lastName}" style="margin-right: 10px;"/>
+                        <h:message 
+                        id="registerLastNameMessage" 
+                        showSummary="true" 
+                        showDetail="false" 
+                        infoStyle="color: green"
+                        warnStyle="color: yellow" 
+                        errorStyle="color:red" 
+                        for="lastNameRegister"  
+                        style="margin-left: 20px; margin-right: 20px;"/>
+
+                        <h:outputLabel for="firstNameRegister" value = "Vorname*: " style="margin: 10px" />
+                        <h:inputText id="firstNameRegister" required = "true" requiredMessage="Pflichtfeld!" value="#{registerBean.firstName}" style="margin-right: 10px;"/>
+                        <h:message 
+                        id="firstNameRegisterMessage" 
+                        showSummary="true" 
+                        showDetail="false" 
+                        infoStyle="color: green"
+                        warnStyle="color: yellow" 
+                        errorStyle="color:red" 
+                        for="firstNameRegister"  
+                        style="margin-left: 20px; margin-right: 20px;"/>
+
+
+                        <h:outputLabel value = "Benutzername*: " style="margin: 10px" />
+                        <h:inputText id="registerName" required = "true" requiredMessage="Pflichtfeld!" value="#{registerBean.loginName}" style="margin-right: 10px;"/>
+                        <h:message 
+                        id="loginNameMessage" 
+                        showSummary="true" 
+                        showDetail="false" 
+                        infoStyle="color: green"
+                        warnStyle="color: yellow" 
+                        errorStyle="color:red" 
+                        for="registerName"  
+                        style="margin-left: 20px; margin-right: 20px;"/>
+
+                        <h:outputLabel for="registerPassword" value = "Passwort: " style="margin: 10px" />
+                        <h:inputSecret
+                            id="registerPassword"
+                            required = "true" 
+                            value="#{registerBean.pwd}"
+                            requiredMessage="Bitte angeben!"  
+                            validatorMessage="Passwortlänge überprüfen!"
+                            redisplay="false">
+                        <f:validateLength minimum="5"/>
+                        <f:ajax 
+                            render="global" 
+                            event="keyup" 
+                            listener="#{registerBean.inputAjaxListener}"/>
+                        </h:inputSecret>
+                        <h:message 
+                        id="registerPasswordMessage" 
+                        showSummary="true" 
+                        showDetail="false" 
+                        infoStyle="color: green"
+                        warnStyle="color: yellow" 
+                        errorStyle="color:red" 
+                        for="registerPassword"  
+                        style="margin-left: 20px; margin-right: 20px;"/>
+
+                        <f:facet name = "footer">
+                            <h:panelGroup style = "display:block; text-align:center">
+                                <h:commandButton id = "submitRegister" value = "Registrieren" action="#{registerBean.ValidateRegister}" style="margin-bottom: 10px;"/>
+                            </h:panelGroup>
+                        </f:facet>                  
+                    </h:panelGrid>
+                </h:form>
             </ui:define>
         </ui:composition>
     </h:body>

@@ -27,7 +27,6 @@ public class User {
         this.password = password;
     }
     
-    
     public String getLoginName() {
         return loginName;
     }
