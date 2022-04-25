@@ -2,16 +2,69 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">    
 
     <h:body>
         <ui:composition template="template/master.xhtml">
-            
-            <ui:define name="content">
-                Warenkorb
-            </ui:define>
-            
-        </ui:composition>
+            <ui:define name="content"> 
+        <h:form id = "shoppingCartTable" binding = "#{shoppingCartBean.shoppingCartTableComponent}">   
+            <h:dataTable styleClass="dataTableStyle"                        
+                         value = "#{shoppingCartBean.shoppingCartItems}"                                               
+                         var = "item"
+                         rows="4"
+                         border="1"
+                         cellpadding="20"
+                         cellspacing="20">               
+                
+            <h:column>
+    	    	<f:facet name="header"> Produktname </f:facet>
+                <h:outputText value="#{item.name}"></h:outputText>
+    	    </h:column>
+                
+            <h:column>
+    	    	<f:facet name="header" > Preis </f:facet>
+                <h:outputText value="#{item.preis}">
+                <f:convertNumber
+                    type="currency"
+                    currencySymbol="€"
+                    maxFractionDigits="2"/>
+                </h:outputText>
+    	    </h:column>
+    	    
+    	     <h:column>
+    	    	<f:facet name="header"> Beschreibung </f:facet>
+                <h:outputText value="#{item.beschreibung}"></h:outputText>
+    	    </h:column>
+
+            <h:column>
+            <f:facet name="header"> Menge </f:facet>
+
+                <h:selectOneMenu value="#{item.reservedStueckZahl}"
+                                 valueChangeListener="#{shoppingCartBean.changeAmount}">
+                    <f:selectItems value="#{item.arr}" var="i" itemValue="#{i}" itemLabel="#{i}"
+                                   noSelectionValue="#{item.reservedStueckZahl}" /> 
+                </h:selectOneMenu>
+               
+            </h:column>
+                
+            </h:dataTable>
+        <h:commandButton id = "submitOrder"                         
+                         value = "Bestellen" 
+                         action="#{shoppingCartBean.ValidateOrder}"/>
+        </h:form>
+        <h:message 
+            id="submitOrderMessage" 
+            showSummary="true" 
+            showDetail="false" 
+            infoStyle="color: green"
+            warnStyle="color: yellow" 
+            errorStyle="color:red" 
+            for="shoppingCartTable"  
+            style="margin-left: 20px; margin-right: 20px;"/>
+             </ui:define>
+        </ui:composition>               
+
     </h:body>
 </html>
 

@@ -3,3 +3,9 @@
     margin-left: 600px;
     background-color: #a6a6a6;
 }
+
+.dataTableStyle{
+    border: 3px solid #999999; 
+    width: 100%;
+    text-align: center;
+}

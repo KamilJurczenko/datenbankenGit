@@ -2,16 +2,82 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">    
+
     <h:body>
         <ui:composition template="template/master.xhtml">
-            <ui:define name="content">
-                Hello with Templates!
-            </ui:define>
-        </ui:composition>
+            <ui:define name="content"> 
+        <h:form id = "productDataTable" binding = "#{shoppingCartBean.productTableComponent}">   
+            <h:dataTable styleClass="dataTableStyle"
+                         value = "#{productBean.items}"                                               
+                         var = "item"
+                         rows="7"
+                         border="1"
+                         cellpadding="20"
+                         cellspacing="20">               
+                
+            <h:column>
+    	    	<f:facet name="header"> ID </f:facet> 
+                <h:outputText value="#{item.id}"></h:outputText>
+    	    </h:column> 
+                
+            <h:column>
+    	    	<f:facet name="header"> Produktname </f:facet>
+                <h:outputText value="#{item.name}"></h:outputText>
+    	    </h:column>
+                
+            <h:column>
+    	    	<f:facet name="header" > Preis </f:facet>
+                <h:outputText value="#{item.preis}">
+                <f:convertNumber
+                    type="currency"
+                    currencySymbol="€"
+                    maxFractionDigits="2"/>
+                </h:outputText>
+    	    </h:column>
+    	    
+    	     <h:column>
+    	    	<f:facet name="header"> Beschreibung </f:facet>
+                <h:outputText value="#{item.beschreibung}"></h:outputText>
+    	    </h:column>
+
+            <h:column>  
+            <f:facet name="header"> Verfügbar</f:facet>
+            <h:outputText value="#{item.stueckZahl}"></h:outputText>
+            </h:column>
+            <h:column>
+
+                <f:facet name="header"> Stückzahl</f:facet>
+                
+                    <h:selectOneMenu value="#{item.reservedStueckZahl}"
+                                     valueChangeListener="#{shoppingCartBean.changeAmount}">
+                        <f:selectItems value="#{item.arr}" var="i" itemValue="#{i}" itemLabel="#{i}" /> 
+                    </h:selectOneMenu>
+               
+            </h:column>
+                    
+            <h:column>
+                <h:commandButton id = "submitRegister" 
+                                 value = "Hinzufügen" 
+                                 action="#{shoppingCartBean.ValidateAddToShoppingCart(item)}"/>
+            </h:column>
+                
+            </h:dataTable>
+        </h:form>
+                <h:message 
+                id="productOrderMessage" 
+                showSummary="true" 
+                showDetail="false" 
+                infoStyle="color: green"
+                warnStyle="color: yellow" 
+                errorStyle="color:red" 
+                for="productDataTable"  
+                style="margin-left: 20px; margin-right: 20px;"/>
+          
+             </ui:define>
+        </ui:composition>               
+
     </h:body>
 </html>
 
